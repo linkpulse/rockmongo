@@ -66,7 +66,13 @@ function render_navigation($db, $collection = null, $extend = true) {
 	$navigation = '<a href="' . url("server.databases") . '"><img src="' . rock_theme_path() . '/images/world.png" width="14" align="absmiddle"/> ' . rock_lang("databases") . '</a> &raquo; <a href="' .$dbpath . '"><img src="' . rock_theme_path() . '/images/database.png" width="14" align="absmiddle"/> ' . $db . "</a>";
 	if(!is_null($collection)) {
 		$navigation .= " &raquo; <a href=\"" . url("collection.index", $extend ? xn() : array( "db" => $db, "collection" => $collection )) . "\">";
-		$navigation .= '<img src="' . rock_theme_path() . '/images/' . r_get_collection_icon($collection) . '.png" width="14" align="absmiddle"/> ';
+//		$navigation .= '<img src="' . rock_theme_path() . '/images/' . r_get_collection_icon($collection) . '.png" width="14" align="absmiddle"/> ';
+        if (preg_match("/\\.(files|chunks)/", $collection)) {
+            $navigation .= '<img src="' . rock_theme_path() . '/images/grid.png" width="14" align="absmiddle"/> ';
+        }
+        else {
+            $navigation .= '<img src="' . rock_theme_path() . '/images/table.png" width="14" align="absmiddle"/> ';
+        }
 		$navigation .= $collection . "</a>";
 	}
 	echo $navigation;
@@ -268,15 +274,16 @@ function render_collection_menu($dbName, $collectionName) {
 			$string .= "<div class=\"menu\">";
 		}
 
-		if (is_string($op)) {
-			if ($op == "-") {
-				$string .= "-----------";
-			}
-			else {
-				$string .= $op;
-			}
-		}
-		else if (!empty($op["action"])) {
+//		if (is_string($op)) {
+//			if ($op == "-") {
+//				$string .= "-----------";
+//			}
+//			else {
+//				$string .= $op;
+//			}
+//		}
+//		else
+		    if (!empty($op["action"])) {
 			$string .= '<a href="' . url($op["action"], isset($op["params"]) ? $op["params"] : array()) . '"';
 			if (__CONTROLLER__ . "." . __ACTION__ == $op["action"]) {
 				$string .= ' class="current"';

@@ -13,6 +13,8 @@ define("ROCK_MONGO_VERSION", "1.1.8");
 
 error_reporting(E_ALL);
 
+include('vendor/autoload.php');
+
 /**
 * Environment detection
 */
@@ -24,10 +26,8 @@ if (!class_exists("Mongo") && !class_exists("MongoClient")) {
 }
 
 // enforce Mongo support for int64 data type (Kyryl Bilokurov <kyryl.bilokurov@gmail.com>)
-if (PHP_INT_SIZE == 8) {
-	ini_set("mongo.native_long", 1);
-	ini_set("mongo.long_as_object", 1);
-}
+ini_set("mongo.native_long", 1);
+ini_set("mongo.long_as_object", 1);
 
 /**
 * Initializing configuration files and RockMongo
